@@ -1,4 +1,6 @@
 import functions as fn
+import add_programs.victory as vk
+import add_programs.my_account as ma
 
 # Записываем в константу информацию об программе
 PROGRAM_INFO = fn.get_program_info()
@@ -35,9 +37,9 @@ while True:
     elif choice == '8':
         print('Автор программы: ', PROGRAM_INFO['author'])
     elif choice == '9':
-        pass
+        vk.start_victory()
     elif choice == '10':
-        pass
+        ma.start_my_account()
     elif choice == '11':
         fn.change_work_dir()
     elif choice == '12':
