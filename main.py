@@ -1,5 +1,8 @@
 import functions as fn
 
+# Записываем в константу информацию об программе
+PROGRAM_INFO = fn.get_program_info()
+
 while True:
     print('1. Создать папку')
     print('2. Удалить (файл/папку)')
@@ -28,9 +31,9 @@ while True:
     elif choice == '6':
         fn.output_list_work_dir(2)
     elif choice == '7':
-        pass
+        print('Информация об перационной системе: ', PROGRAM_INFO['OS'])
     elif choice == '8':
-        pass
+        print('Автор программы: ', PROGRAM_INFO['author'])
     elif choice == '9':
         pass
     elif choice == '10':

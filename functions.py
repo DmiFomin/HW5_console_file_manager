@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 
 
 def create_folder():
@@ -97,6 +98,11 @@ def output_list_work_dir(type_output = 0):
     return_list = return_list_work_dir(type_output)
     for element in return_list:
         print(element)
+
+
+def get_program_info():
+    return {'OS': f'{sys.platform}, ({os.name})', 'author': 'Fomin Dmitry'}
+
 
 def change_work_dir():
     '''
