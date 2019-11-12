@@ -1,6 +1,19 @@
+def add_incomes(balance_f,sum):
+    return balance_f + sum
+
+
+def subtract_expenses(balance_f, sum):
+    return balance_f - sum
+
+
+def record_history(history_f, product, price):
+    history_f.append({'product': product, 'price': price})
+    return history_f
+
+
 def incomes(balance_f):
     add_sum = float(input('Введите сумму для пополнения: '))
-    return balance_f + add_sum
+    return add_incomes(balance_f, add_sum)
 
 
 def expenses(balance_f, history_f):
@@ -10,7 +23,7 @@ def expenses(balance_f, history_f):
     else:
         product = input('Что вы хотите купить? ')
         balance_f = balance_f - price
-        history_f.append({'product': product, 'price': price})
+        history_f = record_history(history_f, product, price)
 
     return balance_f, history_f
 
