@@ -3,10 +3,26 @@ import shutil
 import sys
 
 
+def get_program_info():
+    """
+    Информация о программе
+    """
+    return {'OS': f'{sys.platform}, ({os.name})', 'author': 'Fomin Dmitry'}
+
+
+def get_program_settings():
+    """
+    Получаем настройки программы
+    :return: Возвращаем словарь с настройками
+    """
+    program_settings = {'path_to_listdir': os.path.join(os.getcwd(), 'listdir.txt')}
+    return program_settings
+
+
 def create_folder():
-    '''
+    """
     Создание каталога
-    '''
+    """
     folder_name = input('Введите название каталога: ')
     # Проверяем есть каталог или нет
     if os.path.exists(folder_name):
@@ -17,9 +33,9 @@ def create_folder():
 
 
 def delete_folder():
-    '''
+    """
     Удаление каталога или файла
-    '''
+    """
     folder_name = input('Введите название каталога или файла: ')
     path = os.path.join(os.getcwd(), folder_name)
     # Проверяем есть каталог или нет
@@ -39,9 +55,9 @@ def delete_folder():
 
 
 def copy_folder():
-    '''
+    """
     Копирование каталога или файла
-    '''
+    """
     old_name = input('Введите имя каталога/файла, который хотите скопировать: ')
     is_dir_exist = False
     while not is_dir_exist:
@@ -69,11 +85,11 @@ def copy_folder():
 
 
 def return_list_work_dir(type_output = 0):
-    '''
+    """
     Вывод содержимого рабочей директории
     :param type_output: тип вывода (0 - каталоги и файлы; 1 - только каталоги; 2 - только файлы)
     :return: список содержимого
-    '''
+    """
     if type_output == 0:
         return_list = os.listdir()
     elif type_output == 1:
@@ -84,10 +100,10 @@ def return_list_work_dir(type_output = 0):
 
 
 def output_list_work_dir(type_output = 0):
-    '''
+    """
     Выводит список построчно
     :param type_output: тип вывода (0 - каталоги и файлы; 1 - только каталоги; 2 - только файлы)
-    '''
+    """
     if type_output == 0:
         print('Полное содержимое рабочей директории:')
     elif type_output == 1:
@@ -100,14 +116,21 @@ def output_list_work_dir(type_output = 0):
         print(element)
 
 
-def get_program_info():
-    return {'OS': f'{sys.platform}, ({os.name})', 'author': 'Fomin Dmitry'}
+def save_work_dir_to_file(path):
+    """
+    Записываем содержимое рабочей директории в текстовый файл: сначала файлы, потом каталоги
+    :param path: путь до файла, хранится в настройках, чтобы при смене рабочей директории не менялся.
+    """
+    with open(path, 'w') as f:
+        f.write(f'Содержимое рабочей директории {os.getcwd()}:\n')
+        f.write(f'Файлы: {return_list_work_dir(2)}\n')
+        f.write(f'Кталоги: {return_list_work_dir(1)}\n')
 
 
 def change_work_dir():
-    '''
+    """
     Смена рабочей директории
-    '''
+    """
     new_dir = input("Укажите новую рабочую директорию: ")
     while True:
         if not os.path.exists(new_dir):
