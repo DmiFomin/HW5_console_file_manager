@@ -30,10 +30,17 @@ def open_json(path):
     :return: Возвращает balance (float) и history (list)
     """
     if os.path.exists(path):
-        with open(path, 'r') as f:
-            result = json.load(f)
-            balance = result['balance']
-            history = result['history']
+        try:
+            with open(path, 'r') as f:
+                result = json.load(f)
+                balance = result['balance']
+                history = result['history']
+        except Exception as e:
+            print(e)
+            print('Ошибка открытия файла')
+            balance = 0
+            history = []
+
     else:
         balance = 0
         history = []
@@ -66,18 +73,40 @@ def record_history(history_f, product, price):
 
 
 def incomes(balance_f):
-    add_sum = float(input('Введите сумму для пополнения: '))
-    return add_incomes(balance_f, add_sum)
+    try:
+        add_sum = float(input('Введите сумму для пополнения: '))
+    except ValueError:
+        print('Нужно ввести число! Попробуйте заново.')
+        result = balance_f
+    except Exception as e:
+        print(e)
+        print('Неизвестная ошибка! Попробуйте заново')
+        result = balance_f
+    else:
+        result = add_incomes(balance_f, add_sum)
+
+    return result
 
 
 def expenses(balance_f, history_f):
-    price = float(input('Введите сумму покупки: '))
-    if price > balance_f:
-        print('У вас не хватает средств!')
+    try:
+        price = float(input('Введите сумму покупки: '))
+    except ValueError:
+        print('Нужно ввести число! Попробуйте заново.')
+        balance_f = balance_f
+        history_f = history_f
+    except Exception as e:
+        print(e)
+        print('Ошибка! Попробуйте заново')
+        balance_f = balance_f
+        history_f = history_f
     else:
-        product = input('Что вы хотите купить? ')
-        balance_f = subtract_expenses(balance_f, price)
-        history_f = record_history(history_f, product, price)
+        if price > balance_f:
+            print('У вас не хватает средств!')
+        else:
+            product = input('Что вы хотите купить? ')
+            balance_f = subtract_expenses(balance_f, price)
+            history_f = record_history(history_f, product, price)
 
     return balance_f, history_f
 
@@ -86,3 +115,4 @@ def view_history(history_f):
     print('Ваша история покупок:')
     for element in history_f:
         print(f'Товар: {element["product"]}; цена: {element["price"]}')
+

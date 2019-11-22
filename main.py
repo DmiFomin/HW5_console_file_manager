@@ -3,6 +3,7 @@ from datetime import datetime
 import add_programs.victory as vk
 import add_programs.my_account as ma
 
+
 # Записываем в константу информацию об программе
 PROGRAM_INFO = fn.get_program_info()
 # Записываем настройки
@@ -34,11 +35,11 @@ while True:
     elif choice == '3':
         fn.copy_folder()
     elif choice == '4':
-        fn.output_list_work_dir()
+        fn.return_list_work_dir()
     elif choice == '5':
-        fn.output_list_work_dir(1)
+        fn.return_list_work_dir(1)
     elif choice == '6':
-        fn.output_list_work_dir(2)
+        fn.return_list_work_dir(2)
     elif choice == '7':
         print('Информация об перационной системе: ', PROGRAM_INFO['OS'])
     elif choice == '8':
@@ -53,7 +54,8 @@ while True:
         print('Начало сессии: ', START_SESSION.strftime('%d-%m-%Y %H:%M:%S'))
         print('Время сессии: ', (str(datetime.now() - START_SESSION).split('.')[0]))
     elif choice == '13':
-        fn.save_work_dir_to_file(PROGRAM_SETTINGS['path_to_listdir'])
+        result = fn.save_work_dir_to_file(PROGRAM_SETTINGS['path_to_listdir'])
+        print(f'Список содержимого сохранен: {result}')
     elif choice == '14':
         break
     else:
