@@ -75,15 +75,36 @@ def copy_folder():
     # Проверяем есть каталог или нет
     if os.path.exists(old_path):
         # Проверяем каталог это или файл
-        if os.path.isdir(old_path):
-            shutil.copytree(old_name, new_name)
-        else:
-            shutil.copy(old_name, new_name)
+        shutil.copytree(old_name, new_name) if os.path.isdir(old_path) else shutil.copy(old_name, new_name)
         print('Создан новый каталог/файл: ', os.path.join(os.getcwd(), new_name))
     else:
         print('Исходного каталога/файла не существует!')
 
 
+def output_list_work_dir_decorator(func):
+    """
+    Декоратор для функции return_list_work_dir.
+    Выводит список построчно
+    :param type_output: тип вывода (0 - каталоги и файлы; 1 - только каталоги; 2 - только файлы)
+    """
+    def inner(type_output = 0):
+        if type_output == 0:
+            print('Полное содержимое рабочей директории:')
+        elif type_output == 1:
+            print('Каталоги в рабочей директории:')
+        elif type_output == 2:
+            print('Файлы в рабочей директории:')
+
+        return_list = func(type_output)
+        for element in return_list:
+            print(element)
+
+        return return_list
+
+    return inner
+
+
+@output_list_work_dir_decorator
 def return_list_work_dir(type_output = 0):
     """
     Вывод содержимого рабочей директории
@@ -93,27 +114,31 @@ def return_list_work_dir(type_output = 0):
     if type_output == 0:
         return_list = os.listdir()
     elif type_output == 1:
-        return_list = list(filter(lambda x: os.path.isdir(x), os.listdir()))
+        # Использую генераторы вместо лямбды
+        #return_list = list(filter(lambda x: os.path.isdir(x), os.listdir()))
+        return_list = [element for element in os.listdir() if os.path.isdir(element)]
     elif type_output == 2:
-        return_list = list(filter(lambda x: not os.path.isdir(x), os.listdir()))
+        # Использую генераторы вместо лямбды
+        #return_list = list(filter(lambda x: not os.path.isdir(x), os.listdir()))
+        return_list = [element for element in os.listdir() if not os.path.isdir(element)]
     return return_list
 
 
-def output_list_work_dir(type_output = 0):
-    """
-    Выводит список построчно
-    :param type_output: тип вывода (0 - каталоги и файлы; 1 - только каталоги; 2 - только файлы)
-    """
-    if type_output == 0:
-        print('Полное содержимое рабочей директории:')
-    elif type_output == 1:
-        print('Каталоги в рабочей директории:')
-    elif type_output == 2:
-        print('Файлы в рабочей директории:')
-
-    return_list = return_list_work_dir(type_output)
-    for element in return_list:
-        print(element)
+# def output_list_work_dir(type_output = 0):
+#     """
+#     Выводит список построчно
+#     :param type_output: тип вывода (0 - каталоги и файлы; 1 - только каталоги; 2 - только файлы)
+#     """
+#     if type_output == 0:
+#         print('Полное содержимое рабочей директории:')
+#     elif type_output == 1:
+#         print('Каталоги в рабочей директории:')
+#     elif type_output == 2:
+#         print('Файлы в рабочей директории:')
+#
+#     return_list = return_list_work_dir(type_output)
+#     for element in return_list:
+#         print(element)
 
 
 def save_work_dir_to_file(path):
@@ -125,6 +150,8 @@ def save_work_dir_to_file(path):
         f.write(f'Содержимое рабочей директории {os.getcwd()}:\n')
         f.write(f'Файлы: {return_list_work_dir(2)}\n')
         f.write(f'Кталоги: {return_list_work_dir(1)}\n')
+
+    return path
 
 
 def change_work_dir():

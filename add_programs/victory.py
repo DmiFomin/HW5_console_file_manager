@@ -20,8 +20,6 @@ def start_victory():
 
         count_true = 0;
         count_false = 0;
-        percent_true = 0
-        percent_false = 0
 
         print('Вам нужно правильно ввести дату рождения изместных людей в формате dd.mm.yyyy.')
         count_questions = input(f'Укажите количество вопросов, на которые хотите ответить (от 1 до {len(list_of_person)}): ')
